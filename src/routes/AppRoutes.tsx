@@ -15,6 +15,7 @@ import HomePage from "./HomePage/Index";
 import NotFoundPage from "./404Page/NotFoundPage";
 import RegisterPage from "./RegisterPage/Index";
 import AboutMe from "./about/Index";
+import UserPage from "./HomePage/components/UserPage";
 // import StartUpAlert from "../components/alert/StartUpAlert";
 
 const AppRouter = () => {
@@ -55,6 +56,14 @@ const AppRouter = () => {
           element={
             <ProtectedRoutes>
               <HomePage />
+            </ProtectedRoutes>
+          }
+        />
+        <Route
+          path="/user-form"
+          element={
+            <ProtectedRoutes>
+              <UserPage />
             </ProtectedRoutes>
           }
         />

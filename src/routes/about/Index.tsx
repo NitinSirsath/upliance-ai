@@ -120,6 +120,7 @@ const AboutMe = () => {
             />
           </Stack>
         </Box>
+        <div style={{ height: "50vh" }}>safsaf</div>
       </Paper>
     </Container>
   );

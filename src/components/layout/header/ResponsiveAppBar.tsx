@@ -99,6 +99,13 @@ const ResponsiveAppBar = () => {
               <Button
                 color="inherit"
                 sx={{ color: textColor, textTransform: "capitalize" }}
+                onClick={() => navigate("/user-form")}
+              >
+                User Form
+              </Button>
+              <Button
+                color="inherit"
+                sx={{ color: textColor, textTransform: "capitalize" }}
                 onClick={() => navigate("/about")}
               >
                 About Me
