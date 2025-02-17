@@ -17,6 +17,7 @@ import RegisterPage from "./RegisterPage/Index";
 import AboutMe from "./about/Index";
 import UserPage from "./HomePage/components/UserPage";
 import RichTextEditor from "./HomePage/components/RichTextEditor";
+import DashboardPage from "./HomePage/dashboard/Index";
 // import StartUpAlert from "../components/alert/StartUpAlert";
 
 const AppRouter = () => {
@@ -73,6 +74,14 @@ const AppRouter = () => {
           element={
             <ProtectedRoutes>
               <RichTextEditor />
+            </ProtectedRoutes>
+          }
+        />
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoutes>
+              <DashboardPage />
             </ProtectedRoutes>
           }
         />

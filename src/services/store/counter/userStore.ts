@@ -7,21 +7,29 @@ interface UserData {
   address: string;
   email: string;
   phone: string;
-  setUser: (data: Omit<UserData, "userId">) => void;
 }
 
-export const useUserStore = create<UserData>()(
+interface UserStore {
+  users: UserData[];
+  selectedUserId: string | null;
+  addUser: (user: Omit<UserData, "userId">) => void;
+  setSelectedUser: (userId: string) => void;
+}
+
+export const useUserStore = create<UserStore>()(
   persist(
     (set) => ({
-      userId: crypto.randomUUID(),
-      name: "",
-      address: "",
-      email: "",
-      phone: "",
-      setUser: (data) => set((state) => ({ ...state, ...data })),
+      users: [],
+      selectedUserId: null,
+      addUser: (user) =>
+        set((state) => {
+          const newUser = { ...user, userId: crypto.randomUUID() };
+          return { users: [...state.users, newUser] };
+        }),
+      setSelectedUser: (userId) => set(() => ({ selectedUserId: userId })),
     }),
     {
-      name: "user-form",
+      name: "user-store",
     }
   )
 );

@@ -1,47 +1,74 @@
 import { useState, useEffect } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import { Box, Typography } from "@mui/material";
+import {
+  Box,
+  Typography,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+} from "@mui/material";
 import { useUserStore } from "../../../services/store/counter/userStore";
 
 const RichTextEditor = () => {
-  const { name, address, email, phone } = useUserStore(); // Get user data from store
+  const { users, selectedUserId, setSelectedUser } = useUserStore();
+  const selectedUser = users.find((user) => user.userId === selectedUserId);
   const [content, setContent] = useState("");
 
-  // Load saved content from local storage
   useEffect(() => {
-    const savedContent = localStorage.getItem("richTextContent");
-    if (savedContent) {
-      setContent(savedContent);
+    if (selectedUser) {
+      const savedContent = localStorage.getItem(
+        `richText-${selectedUser.userId}`
+      );
+      setContent(savedContent || "");
     }
-  }, []);
+  }, [selectedUser]);
 
-  // Save content to local storage
   useEffect(() => {
-    localStorage.setItem("richTextContent", content);
-  }, [content]);
+    if (selectedUser) {
+      localStorage.setItem(`richText-${selectedUser.userId}`, content);
+    }
+  }, [content, selectedUser]);
 
   return (
     <Box sx={{ maxWidth: "800px", margin: "auto", padding: 3 }}>
       <Typography variant="h5" gutterBottom>
         Rich Text Editor
       </Typography>
-      <Typography variant="body1" color="textSecondary">
-        User Data:
-      </Typography>
-      <Typography variant="body2">
-        <strong>Name:</strong> {name || "N/A"} <br />
-        <strong>Address:</strong> {address || "N/A"} <br />
-        <strong>Email:</strong> {email || "N/A"} <br />
-        <strong>Phone:</strong> {phone || "N/A"}
-      </Typography>
 
-      <ReactQuill
-        value={content}
-        onChange={setContent}
-        theme="snow"
-        style={{ height: "200px", marginTop: "20px" }}
-      />
+      {/* User Selection Dropdown */}
+      <FormControl fullWidth sx={{ marginBottom: 2 }}>
+        <InputLabel>Select User</InputLabel>
+        <Select
+          value={selectedUserId || ""}
+          onChange={(e) => setSelectedUser(e.target.value)}
+        >
+          {users.map((user) => (
+            <MenuItem key={user.userId} value={user.userId}>
+              {user.name} ({user.email})
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+
+      {selectedUser ? (
+        <>
+          <Typography variant="body1">
+            <strong>Name:</strong> {selectedUser.name}
+          </Typography>
+          <ReactQuill
+            value={content}
+            onChange={setContent}
+            theme="snow"
+            style={{ height: "200px", marginTop: "20px" }}
+          />
+        </>
+      ) : (
+        <Typography variant="body1" color="error">
+          Please select a user to edit.
+        </Typography>
+      )}
     </Box>
   );
 };

@@ -113,6 +113,13 @@ const ResponsiveAppBar = () => {
               <Button
                 color="inherit"
                 sx={{ color: textColor, textTransform: "capitalize" }}
+                onClick={() => navigate("/dashboard")}
+              >
+                Dashboard
+              </Button>
+              <Button
+                color="inherit"
+                sx={{ color: textColor, textTransform: "capitalize" }}
                 onClick={() => navigate("/about")}
               >
                 About Me
