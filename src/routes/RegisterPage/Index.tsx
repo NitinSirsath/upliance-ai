@@ -9,7 +9,6 @@ import {
   Link,
   Paper,
   Button,
-  Typography,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import {
@@ -21,7 +20,7 @@ import InputAdornment from "@mui/material/InputAdornment";
 import { createTheme } from "@mui/material/styles";
 import useRegisterPage from "./hooks/useRegisterPage";
 import styles from "../LoginPage/loginPage.module.css";
-import companyLogo from "../../assets/companyLogo.avif";
+import companyLogo from "../../assets/companyIcon.avif";
 import registerBG from "../../assets/loginBG.svg";
 
 // Light theme configuration
@@ -81,9 +80,6 @@ const RegisterPage: React.FC = () => {
                   src={companyLogo}
                   style={{ height: "30px" }}
                 />{" "}
-                <Typography variant="body1" color="textPrimary">
-                  React Calculator Builder
-                </Typography>
               </div>
               {registerError && (
                 <h5 style={{ color: lightTheme.palette.error.main }}>

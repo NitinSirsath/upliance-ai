@@ -9,7 +9,6 @@ import {
   Link,
   Paper,
   Button,
-  Typography,
 } from "@mui/material";
 import {
   Visibility,
@@ -19,7 +18,7 @@ import {
 import InputAdornment from "@mui/material/InputAdornment";
 import { createTheme } from "@mui/material/styles";
 import styles from "./loginPage.module.css";
-import companyLogo from "../../assets/companyLogo.avif";
+import companyLogo from "../../assets/companyIcon.avif";
 import loginBG from "../../assets/loginBG.svg";
 import useLoginPage from "./hooks/useLoginPage";
 import { useNavigate } from "react-router-dom";
@@ -90,9 +89,6 @@ const LoginPage: React.FC = () => {
                   src={companyLogo}
                   style={{ height: "30px" }}
                 />{" "}
-                <Typography variant="body1" color="textPrimary">
-                  React Calculator Builder
-                </Typography>
               </div>
               {loginError && (
                 <h5 style={{ color: lightTheme.palette.error.main }}>
