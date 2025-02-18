@@ -1,8 +1,9 @@
 import { Box, Stack, TextField, Typography } from "@mui/material";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import GlobalDialog from "../../../components/dialogs/GlobalDialog";
-import useUserForm from "../hooks/useUserForm";
-import { User } from "../../../services/store/counter/appStore";
+import GlobalDialog from "../../../../components/dialogs/GlobalDialog";
+import useUserForm from "../../hooks/useUserForm";
+import { User } from "../../../../services/store/counter/appStore";
+import { useToastStore } from "../../../../services/store/snackbar/toastStore";
 
 type IProps = {
   open: boolean;
@@ -25,6 +26,8 @@ const UserFormDialog = ({ open, setOpen }: IProps) => {
     setErrors,
     formData,
   } = useUserForm();
+
+  const { showToast } = useToastStore();
 
   const [newUserId, setNewUserId] = useState<string | null>(
     crypto.randomUUID()
@@ -50,6 +53,7 @@ const UserFormDialog = ({ open, setOpen }: IProps) => {
       count: 0,
     };
     addUser(obj);
+    showToast("Added new user", "success");
     handleClose();
   };
 

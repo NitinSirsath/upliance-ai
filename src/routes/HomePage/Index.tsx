@@ -1,11 +1,18 @@
-import { Stack } from "@mui/material";
+import { Box, Stack } from "@mui/material";
 import Counter from "./components/Counter";
+import useCounter from "./hooks/useCounter";
+import UserTable from "./components/table/UserTable";
 
 const HomePage = () => {
+  const { users } = useCounter();
+  console.log(users);
   return (
-    <Stack justifyContent={"start"} alignItems={"center"}>
-      <Counter />
-    </Stack>
+    <Box>
+      <Stack justifyContent={"start"} alignItems={"center"}>
+        <Counter />
+      </Stack>
+      <UserTable />
+    </Box>
   );
 };
 

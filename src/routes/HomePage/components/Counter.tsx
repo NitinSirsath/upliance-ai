@@ -1,7 +1,7 @@
 import { Box, Button, Stack, Typography } from "@mui/material";
 import GlobalAutocomplete from "../../../components/dropdown/GlobalAutocomplete";
 import useCounter from "../hooks/useCounter";
-import UserFormDialog from "../dialog/UserForm";
+import UserFormDialog from "./dialog/UserForm";
 
 const Counter = () => {
   const {

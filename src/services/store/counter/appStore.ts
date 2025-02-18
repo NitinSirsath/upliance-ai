@@ -15,6 +15,7 @@ interface AppState {
   selectedUserId: string | null;
   setSelectedUser: (userId: string) => void;
   addUser: (user: User) => void;
+  deleteUser: (userId: string) => void;
   increment: () => void;
   decrement: () => void;
   reset: () => void;
@@ -31,6 +32,14 @@ export const useAppStore = create<AppState>()(
       addUser: (user) =>
         set((state) => {
           return { users: [...state.users, user] };
+        }),
+
+      deleteUser: (userId) =>
+        set((state) => {
+          const filterUsers = state.users.filter(
+            (element) => element.userId !== userId
+          );
+          return { users: filterUsers };
         }),
 
       increment: () => {
