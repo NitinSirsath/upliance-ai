@@ -17,7 +17,7 @@ const GlobalAutocomplete = <T,>({
 }: GlobalAutocompleteProps<T>) => {
   return (
     <Autocomplete
-      sx={{ minWidth: 320 }}
+      sx={{ minWidth: 260 }}
       size="small"
       options={options}
       getOptionLabel={getOptionLabel}

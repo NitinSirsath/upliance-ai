@@ -1,4 +1,11 @@
-import { Box, Button, Stack, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Stack,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import GlobalAutocomplete from "../../../components/dropdown/GlobalAutocomplete";
 import useCounter from "../hooks/useCounter";
 import UserFormDialog from "./dialog/UserForm";
@@ -14,7 +21,8 @@ const Counter = () => {
     setOpenUserForm,
     selectedUser,
   } = useCounter();
-
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   return (
     <Box sx={{ textAlign: "center" }}>
       <Stack
@@ -23,7 +31,7 @@ const Counter = () => {
         alignItems={"center"}
         justifyContent={"right"}
       >
-        <Box>
+        <Box sx={{ width: isMobile ? "260px" : "300px" }}>
           <GlobalAutocomplete
             options={users}
             value={selectedUser || null}
@@ -36,6 +44,7 @@ const Counter = () => {
           variant="outlined"
           color="primary"
           onClick={() => setOpenUserForm(true)}
+          size="small"
         >
           Add User
         </Button>

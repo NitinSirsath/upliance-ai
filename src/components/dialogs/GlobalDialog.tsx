@@ -1,6 +1,6 @@
 import * as React from "react";
 import Button from "@mui/material/Button";
-import { styled } from "@mui/material/styles";
+import { styled, useTheme } from "@mui/material/styles";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
@@ -10,6 +10,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import Grow from "@mui/material/Grow";
 import { TransitionProps } from "@mui/material/transitions";
 import useThemeStore from "../../services/store/theme/themeStore";
+import { useMediaQuery } from "@mui/material";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   backdropFilter: "blur(7px)",
@@ -66,6 +67,8 @@ const GlobalDialog = React.memo(
     handleClose,
   }: IProps) => {
     const { darkMode } = useThemeStore();
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
     const sizeModifier = () => {
       if (customSize) {
@@ -92,7 +95,12 @@ const GlobalDialog = React.memo(
           fullWidth
         >
           <DialogTitle
-            sx={{ m: 0, p: 2, background: darkMode ? undefined : undefined }}
+            sx={{
+              m: 0,
+              background: darkMode ? undefined : undefined,
+              p: isMobile ? 1.5 : 2,
+              fontSize: isMobile ? "1rem" : "1.5rem",
+            }}
             id="customized-dialog-title"
           >
             {dialogTitle}
@@ -111,13 +119,22 @@ const GlobalDialog = React.memo(
           </IconButton>
 
           <DialogContent
-            sx={{ background: darkMode ? undefined : undefined, minWidth: 500 }}
+            sx={{
+              background: darkMode ? undefined : undefined,
+              minWidth: isMobile ? "100%" : 500,
+              padding: isMobile ? 1.5 : 2,
+            }}
             dividers
           >
             {children}
           </DialogContent>
 
-          <DialogActions sx={{ background: darkMode ? undefined : undefined }}>
+          <DialogActions
+            sx={{
+              background: darkMode ? undefined : undefined,
+              padding: isMobile ? 1 : 2,
+            }}
+          >
             {!isDisable && (
               <Button
                 variant="contained"

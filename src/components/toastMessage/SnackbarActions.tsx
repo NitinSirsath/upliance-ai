@@ -19,8 +19,7 @@ const icons = {
 
 export default function SnackbarActions() {
   const { message, severity, hideToast } = useToastStore();
-  const autoHideDuration = 5000; // Set autoHideDuration to 5 seconds (5000 milliseconds)
-  console.log("message", message);
+  const autoHideDuration = 5000;
   const timerRef = React.useRef<number | null>(null);
 
   React.useEffect(() => {
