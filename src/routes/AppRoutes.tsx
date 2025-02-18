@@ -15,7 +15,6 @@ import HomePage from "./HomePage/Index";
 import NotFoundPage from "./404Page/NotFoundPage";
 import RegisterPage from "./RegisterPage/Index";
 import AboutMe from "./about/Index";
-import UserPage from "./HomePage/components/UserPage";
 import RichTextEditor from "./HomePage/components/RichTextEditor";
 import DashboardPage from "./HomePage/dashboard/Index";
 // import StartUpAlert from "../components/alert/StartUpAlert";
@@ -58,14 +57,6 @@ const AppRouter = () => {
           element={
             <ProtectedRoutes>
               <HomePage />
-            </ProtectedRoutes>
-          }
-        />
-        <Route
-          path="/user-form"
-          element={
-            <ProtectedRoutes>
-              <UserPage />
             </ProtectedRoutes>
           }
         />
