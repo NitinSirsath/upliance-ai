@@ -54,8 +54,7 @@ const DashboardPage = () => {
               boxShadow: "0px 10px 30px rgba(0, 0, 0, 0.1)",
               borderRadius: "16px",
               backdropFilter: "blur(10px)",
-              background: "rgba(255, 255, 255, 0.1)", // Glass effect
-              color: "#fff",
+              background: "rgba(255, 255, 255, 0.1)",
               border: "1px solid rgba(255, 255, 255, 0.2)",
               transition: "transform 0.3s ease-in-out",
               "&:hover": {
@@ -70,8 +69,6 @@ const DashboardPage = () => {
                 width: 64,
                 height: 64,
                 mr: 2,
-                backgroundColor: "rgba(255, 255, 255, 0.3)",
-                color: "#fff",
                 fontWeight: "bold",
                 fontSize: "1.5rem",
               }}
