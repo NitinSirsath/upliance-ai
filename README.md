@@ -1,50 +1,68 @@
-# React + TypeScript + Vite
+# Upliance.ai - Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern **React Counter app App** with **dark mode support**, **animations**, and **Persistant Data**. Built using **Vite-React, Zustand, React Quill, Recharts and MUI**.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Dark & Light Mode
+- Login and Register
+- Chart Visualization
+- Table Visualization
+- Peristant Data
+- About Me Section (Displays developer details)
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Installation
 
-- Configure the top-level `parserOptions` property like this:
+Follow these steps to install and run the app:
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+### **Step 1: Clone the Repository**
+
+```sh
+git clone [https://github.com/nitinsirsath/calculator-builder.git](https://github.com/NitinSirsath/upliance-ai.git)
+cd calculator-builder
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+Step 2: Install Dependencies
+Using npm:
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
 ```
+npm install
+```
+
+or using yarn:
+
+```
+yarn install
+```
+
+Step 3: Start the Expo Development Server
+Using npm:
+
+```
+npx run dev
+```
+
+or using yarn:
+
+```
+yarn run dev
+```
+
+## Built With
+
+- Zustand (State Management)
+- Material UI (Material UI Components)
+- Framer Motion (Animations)
+- React Router (Navigation)
+- React Quill (Rich Text Editor)
+- Recharts (Charts Visuals)
+- Tailwind CSS
+  
+
+### Feedback?
+
+contact nitinsirsath8855@gmail.com
+
+website [nitinsirsath.netlify.app/](https://nitinsirsath.netlify.app/)
