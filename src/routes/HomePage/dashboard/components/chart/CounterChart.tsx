@@ -10,31 +10,45 @@ import {
 
 import { Box, Typography } from "@mui/material";
 import { useCounterStore } from "../../../../../services/store/counter/counterStore";
+import { useUserStore } from "../../../../../services/store/counter/userStore";
 
 const CounterChart = () => {
-  const { count } = useCounterStore();
-  const [data, setData] = useState<{ time: string; value: number }[]>([]);
+  const { selectedUserId } = useUserStore(); // Get selected user globally
+  const { userCounters } = useCounterStore();
+  const [chartData, setChartData] = useState<{ time: string; value: number }[]>(
+    []
+  );
 
   useEffect(() => {
-    setData((prevData) => [
-      ...prevData,
-      { time: new Date().toLocaleTimeString(), value: count },
-    ]);
-  }, [count]);
+    if (!selectedUserId) return; // Skip if no user is selected
+
+    const newEntry = {
+      time: new Date().toLocaleTimeString(),
+      value: userCounters[selectedUserId] || 0,
+    };
+    setChartData(() => [newEntry].slice(-10));
+  }, [userCounters, selectedUserId]);
 
   return (
     <Box sx={{ width: "100%", height: 300, marginTop: 3 }}>
       <Typography variant="h6" align="center">
         Counter Trends
       </Typography>
-      <ResponsiveContainer width="100%" height="100%">
-        <BarChart data={data}>
-          <XAxis dataKey="time" />
-          <YAxis />
-          <Tooltip />
-          <Bar dataKey="value" fill="#3f51b5" />
-        </BarChart>
-      </ResponsiveContainer>
+
+      {selectedUserId ? (
+        <ResponsiveContainer width="100%" height="100%">
+          <BarChart data={chartData}>
+            <XAxis dataKey="time" />
+            <YAxis />
+            <Tooltip />
+            <Bar dataKey="value" fill="#3f51b5" />
+          </BarChart>
+        </ResponsiveContainer>
+      ) : (
+        <Typography variant="body1" color="error" align="center">
+          Please select a user to see counter trends.
+        </Typography>
+      )}
     </Box>
   );
 };

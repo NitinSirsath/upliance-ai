@@ -2,7 +2,9 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
 interface CounterState {
-  count: number;
+  userCounters: Record<string, number>; // Stores counter for each user
+  selectedUserId: string | null;
+  setSelectedUser: (userId: string) => void;
   increment: () => void;
   decrement: () => void;
   reset: () => void;
@@ -10,15 +12,48 @@ interface CounterState {
 
 export const useCounterStore = create<CounterState>()(
   persist(
-    (set) => ({
-      count: 0,
-      increment: () => set((state) => ({ count: state.count + 1 })),
-      decrement: () =>
-        set((state) => ({ count: Math.max(0, state.count - 1) })), // Ensuring count doesn't go below 0
-      reset: () => set(() => ({ count: 0 })),
+    (set, get) => ({
+      userCounters: {}, // Each user will have their own count
+      selectedUserId: null, // No user selected initially
+
+      setSelectedUser: (userId) => set({ selectedUserId: userId }),
+
+      increment: () => {
+        const { selectedUserId, userCounters } = get();
+        if (!selectedUserId) return; // Don't update if no user is selected
+
+        set({
+          userCounters: {
+            ...userCounters,
+            [selectedUserId]: (userCounters[selectedUserId] || 0) + 1,
+          },
+        });
+      },
+
+      decrement: () => {
+        const { selectedUserId, userCounters } = get();
+        if (!selectedUserId) return;
+
+        set({
+          userCounters: {
+            ...userCounters,
+            [selectedUserId]: Math.max(
+              0,
+              (userCounters[selectedUserId] || 0) - 1
+            ),
+          },
+        });
+      },
+
+      reset: () => {
+        const { selectedUserId, userCounters } = get();
+        if (!selectedUserId) return;
+
+        set({
+          userCounters: { ...userCounters, [selectedUserId]: 0 },
+        });
+      },
     }),
-    {
-      name: "counter-store",
-    }
+    { name: "user-counter-store" }
   )
 );
