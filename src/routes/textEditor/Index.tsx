@@ -9,7 +9,7 @@ import {
   Select,
   MenuItem,
 } from "@mui/material";
-import { useAppStore } from "../../../services/store/counter/appStore";
+import { useAppStore } from "../../services/store/counter/appStore";
 
 const RichTextEditor = () => {
   const { users, selectedUserId, setSelectedUser } = useAppStore();

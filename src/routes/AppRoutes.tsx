@@ -15,8 +15,8 @@ import HomePage from "./HomePage/Index";
 import NotFoundPage from "./404Page/NotFoundPage";
 import RegisterPage from "./RegisterPage/Index";
 import AboutMe from "./about/Index";
-import RichTextEditor from "./HomePage/components/RichTextEditor";
 import DashboardPage from "./dashboard/Index";
+import RichTextEditor from "./textEditor/Index";
 // import StartUpAlert from "../components/alert/StartUpAlert";
 
 const AppRouter = () => {
