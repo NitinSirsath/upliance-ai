@@ -1,10 +1,10 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import { useUserStore } from "./userStore"; // Import user store
 
 interface CounterState {
-  userCounters: Record<string, number>; // Stores counter for each user
-  selectedUserId: string | null;
-  setSelectedUser: (userId: string) => void;
+  userCounters: Record<string, number>;
+  initializeCounter: (userId: string) => void;
   increment: () => void;
   decrement: () => void;
   reset: () => void;
@@ -12,46 +12,55 @@ interface CounterState {
 
 export const useCounterStore = create<CounterState>()(
   persist(
-    (set, get) => ({
+    (set) => ({
       userCounters: {}, // Each user will have their own count
-      selectedUserId: null, // No user selected initially
 
-      setSelectedUser: (userId) => set({ selectedUserId: userId }),
+      initializeCounter: (userId) => {
+        set((state) => ({
+          userCounters: {
+            ...state.userCounters,
+            [userId]: state.userCounters[userId] ?? 0, // Ensure counter exists
+          },
+        }));
+      },
 
       increment: () => {
-        const { selectedUserId, userCounters } = get();
-        if (!selectedUserId) return; // Don't update if no user is selected
+        const selectedUserId = useUserStore.getState().selectedUserId; // Read from user store
+        if (!selectedUserId) return;
 
-        set({
+        set((state) => ({
           userCounters: {
-            ...userCounters,
-            [selectedUserId]: (userCounters[selectedUserId] || 0) + 1,
+            ...state.userCounters,
+            [selectedUserId]: (state.userCounters[selectedUserId] || 0) + 1,
           },
-        });
+        }));
       },
 
       decrement: () => {
-        const { selectedUserId, userCounters } = get();
+        const selectedUserId = useUserStore.getState().selectedUserId; // Read from user store
         if (!selectedUserId) return;
 
-        set({
+        set((state) => ({
           userCounters: {
-            ...userCounters,
+            ...state.userCounters,
             [selectedUserId]: Math.max(
               0,
-              (userCounters[selectedUserId] || 0) - 1
+              (state.userCounters[selectedUserId] || 0) - 1
             ),
           },
-        });
+        }));
       },
 
       reset: () => {
-        const { selectedUserId, userCounters } = get();
+        const selectedUserId = useUserStore.getState().selectedUserId; // Read from user store
         if (!selectedUserId) return;
 
-        set({
-          userCounters: { ...userCounters, [selectedUserId]: 0 },
-        });
+        set((state) => ({
+          userCounters: {
+            ...state.userCounters,
+            [selectedUserId]: 0,
+          },
+        }));
       },
     }),
     { name: "user-counter-store" }

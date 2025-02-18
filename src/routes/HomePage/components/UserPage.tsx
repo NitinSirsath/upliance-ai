@@ -1,10 +1,11 @@
 import { Container } from "@mui/material";
-import UserForm from "./UserForm";
+import UserForm from "../dialog/UserForm";
 
 const UserPage = () => {
   return (
     <Container sx={{ marginTop: 4 }}>
-      <UserForm />
+      {/* <UserForm /> */}
+      asd
     </Container>
   );
 };

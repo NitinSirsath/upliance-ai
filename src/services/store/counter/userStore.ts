@@ -1,19 +1,19 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import { useCounterStore } from "./counterStore"; // Import counter store
 
-interface UserData {
+interface User {
   userId: string;
   name: string;
   address: string;
   email: string;
-  phone: string;
 }
 
 interface UserStore {
-  users: UserData[];
+  users: User[];
   selectedUserId: string | null;
-  addUser: (user: Omit<UserData, "userId">) => void;
   setSelectedUser: (userId: string) => void;
+  addUser: (user: Omit<User, "userId">) => void;
 }
 
 export const useUserStore = create<UserStore>()(
@@ -21,15 +21,19 @@ export const useUserStore = create<UserStore>()(
     (set) => ({
       users: [],
       selectedUserId: null,
+
+      setSelectedUser: (userId) => {
+        set({ selectedUserId: userId });
+        useCounterStore.getState().initializeCounter(userId); // Ensure counter is initialized
+      },
+
       addUser: (user) =>
         set((state) => {
           const newUser = { ...user, userId: crypto.randomUUID() };
+          useCounterStore.getState().initializeCounter(newUser.userId); // Initialize counter
           return { users: [...state.users, newUser] };
         }),
-      setSelectedUser: (userId) => set(() => ({ selectedUserId: userId })),
     }),
-    {
-      name: "user-store",
-    }
+    { name: "user-store" }
   )
 );
