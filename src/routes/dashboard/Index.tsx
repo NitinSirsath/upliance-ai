@@ -1,12 +1,4 @@
-import {
-  Typography,
-  Paper,
-  Box,
-  Card,
-  CardContent,
-  Avatar,
-  Stack,
-} from "@mui/material";
+import { Typography, Box, Card, CardContent, Avatar } from "@mui/material";
 import CounterChart from "./components/chart/CounterChart";
 import GlobalAutocomplete from "../../components/dropdown/GlobalAutocomplete";
 import { useAppStore } from "../../services/store/counter/appStore";
