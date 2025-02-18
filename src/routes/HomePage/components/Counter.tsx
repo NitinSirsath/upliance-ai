@@ -1,28 +1,31 @@
 import { Box, Button, Typography } from "@mui/material";
-import { useUserStore } from "../../../services/store/counter/userStore";
-import { useCounterStore } from "../../../services/store/counter/counterStore";
 import GlobalAutocomplete from "../../../components/dropdown/GlobalAutocomplete";
 import { useState } from "react";
 import UserFormDialog from "../dialog/UserForm";
+import { useAppStore } from "../../../services/store/counter/appStore";
 
 const Counter = () => {
-  const { users, selectedUserId, setSelectedUser } = useUserStore();
-  const { userCounters, increment, decrement, reset } = useCounterStore();
+  const {
+    users,
+    selectedUserId,
+    setSelectedUser,
+    increment,
+    decrement,
+    reset,
+  } = useAppStore();
   const selectedUser = users.find((user) => user.userId === selectedUserId);
 
-  //dialog
+  // Dialog state
   const [openUserForm, setOpenUserForm] = useState<boolean>(false);
 
-  const handleOpen = () => {
-    setOpenUserForm(true);
-  };
   return (
     <Box sx={{ textAlign: "center", padding: "20px" }}>
-      <Button onClick={handleOpen}>Open</Button>
+      <Button onClick={() => setOpenUserForm(true)}>Open</Button>
       <Typography variant="h4" gutterBottom>
         Counter
       </Typography>
-      {/* User Selection with GlobalAutocomplete */}
+
+      {/* User Selection */}
       <Box sx={{ marginBottom: 2 }}>
         <GlobalAutocomplete
           options={users}
@@ -34,11 +37,9 @@ const Counter = () => {
       </Box>
 
       {/* Show counter for selected user */}
-      {selectedUserId ? (
+      {selectedUser ? (
         <>
-          <Typography variant="h5">
-            Count: {userCounters[selectedUserId] || 0}
-          </Typography>
+          <Typography variant="h5">Count: {selectedUser.count}</Typography>
           <Box
             sx={{
               display: "flex",
@@ -63,6 +64,8 @@ const Counter = () => {
           Please select a user to use the counter.
         </Typography>
       )}
+
+      {/* User Form Dialog */}
       <UserFormDialog open={openUserForm} setOpen={setOpenUserForm} />
     </Box>
   );

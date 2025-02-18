@@ -1,10 +1,10 @@
 import { Container, Typography, Paper, Box } from "@mui/material";
 import CounterChart from "./components/chart/CounterChart";
 import GlobalAutocomplete from "../../../components/dropdown/GlobalAutocomplete";
-import { useUserStore } from "../../../services/store/counter/userStore";
+import { useAppStore } from "../../../services/store/counter/appStore";
 
 const DashboardPage = () => {
-  const { users, selectedUserId, setSelectedUser } = useUserStore();
+  const { users, selectedUserId, setSelectedUser } = useAppStore();
   const selectedUser = users.find((user) => user.userId === selectedUserId);
 
   return (

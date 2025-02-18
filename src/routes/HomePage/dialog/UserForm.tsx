@@ -1,14 +1,14 @@
-import { Box, Stack, TextField } from "@mui/material";
+import { Box, Stack, TextField, Button } from "@mui/material";
 import { Dispatch, SetStateAction, useState } from "react";
-import { useUserStore } from "../../../services/store/counter/userStore";
 import GlobalDialog from "../../../components/dialogs/GlobalDialog";
+import { useAppStore } from "../../../services/store/counter/appStore";
 
 type IProps = {
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
 };
 
-const valuesObj = {
+const initialValues = {
   name: "",
   address: "",
   email: "",
@@ -16,14 +16,13 @@ const valuesObj = {
 };
 
 const UserFormDialog = ({ open, setOpen }: IProps) => {
-  const { addUser } = useUserStore();
-  const [formData, setFormData] = useState(valuesObj);
-
-  const [errors, setErrors] = useState(valuesObj);
+  const { addUser } = useAppStore();
+  const [formData, setFormData] = useState(initialValues);
+  const [errors, setErrors] = useState(initialValues);
 
   const validate = () => {
     let isValid = true;
-    const newErrors = { name: "", address: "", email: "", phone: "" };
+    const newErrors = { ...initialValues };
 
     if (!formData.name.trim()) {
       newErrors.name = "Name is required.";
@@ -56,41 +55,34 @@ const UserFormDialog = ({ open, setOpen }: IProps) => {
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-
-    // Clear error on input change
-    setErrors((prev) => ({ ...prev, [e.target.name]: "" }));
+    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    setErrors((prev) => ({ ...prev, [e.target.name]: "" })); // Clear error when user types
   };
 
   const handleClose = () => {
-    setErrors(valuesObj);
-    setFormData(valuesObj);
+    setFormData(initialValues);
+    setErrors(initialValues);
     setOpen(false);
   };
 
-  const handleSubmit = () => {
-    // e.preventDefault();
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
     if (!validate()) return;
     addUser(formData);
-    alert("User added!");
-    setFormData({ name: "", address: "", email: "", phone: "" });
+    setFormData(initialValues);
     setOpen(false);
   };
 
   return (
     <GlobalDialog
-      dialogActionFunction={handleSubmit}
+      dialogActionFunction={handleClose}
       handleClose={handleClose}
       dialogTitle="User Form"
       open={open}
+      actionButtonTitle="Add User"
     >
-      <Box>
-        <Stack
-          component="form"
-          onSubmit={handleSubmit}
-          direction={"column"}
-          spacing={2}
-        >
+      <Box component="form" onSubmit={handleSubmit}>
+        <Stack direction="column" spacing={2}>
           <TextField
             label="Name"
             name="name"
@@ -127,6 +119,9 @@ const UserFormDialog = ({ open, setOpen }: IProps) => {
             error={!!errors.phone}
             helperText={errors.phone}
           />
+          <Button type="submit" variant="contained" color="primary">
+            Add User
+          </Button>
         </Stack>
       </Box>
     </GlobalDialog>

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import {
   BarChart,
   Bar,
@@ -9,12 +9,13 @@ import {
 } from "recharts";
 
 import { Box, Typography } from "@mui/material";
-import { useCounterStore } from "../../../../../services/store/counter/counterStore";
-import { useUserStore } from "../../../../../services/store/counter/userStore";
+import { useAppStore } from "../../../../../services/store/counter/appStore";
 
 const CounterChart = () => {
-  const { selectedUserId } = useUserStore();
-  const { userCounters } = useCounterStore();
+  const { users, selectedUserId } = useAppStore();
+  const selectedUser = users.find((user) => user.userId === selectedUserId);
+  const userCount = selectedUser?.count || 0;
+
   const [chartData, setChartData] = useState<{ time: string; value: number }[]>(
     []
   );
@@ -24,32 +25,35 @@ const CounterChart = () => {
 
     const newEntry = {
       time: new Date().toLocaleTimeString(),
-      value: userCounters[selectedUserId] || 0,
+      value: userCount,
     };
 
     setChartData((prevData) => [...prevData, newEntry].slice(-10)); // Keep last 10 data points
-  }, [userCounters, selectedUserId]);
+  }, [userCount, selectedUserId]);
+
+  const chartContent = useMemo(() => {
+    return selectedUserId ? (
+      <ResponsiveContainer width="100%" height="100%">
+        <BarChart data={chartData}>
+          <XAxis dataKey="time" />
+          <YAxis />
+          <Tooltip />
+          <Bar dataKey="value" fill="#3f51b5" />
+        </BarChart>
+      </ResponsiveContainer>
+    ) : (
+      <Typography variant="body1" color="error" align="center">
+        Please select a user to see counter trends.
+      </Typography>
+    );
+  }, [chartData, selectedUserId]);
 
   return (
     <Box sx={{ width: "100%", height: 300, marginTop: 3 }}>
       <Typography variant="h6" align="center">
         Counter Trends
       </Typography>
-
-      {selectedUserId ? (
-        <ResponsiveContainer width="100%" height="100%">
-          <BarChart data={chartData}>
-            <XAxis dataKey="time" />
-            <YAxis />
-            <Tooltip />
-            <Bar dataKey="value" fill="#3f51b5" />
-          </BarChart>
-        </ResponsiveContainer>
-      ) : (
-        <Typography variant="body1" color="error" align="center">
-          Please select a user to see counter trends.
-        </Typography>
-      )}
+      {chartContent}
     </Box>
   );
 };
