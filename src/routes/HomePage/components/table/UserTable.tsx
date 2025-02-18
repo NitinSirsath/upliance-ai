@@ -16,6 +16,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAppStore, User } from "../../../../services/store/counter/appStore";
 import { useToastStore } from "../../../../services/store/snackbar/toastStore";
+import MotionWrapper from "../../../../components/animations/MotionWrapper";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -84,68 +85,71 @@ const UserTable = () => {
   });
 
   return (
-    <TableContainer component={Paper} sx={{ overflowX: "auto", mt: 3 }}>
-      <Table stickyHeader>
-        <TableHead>
-          <StyledTableRow
-            sx={{
-              "& th": { color: "white", fontWeight: "bold" },
-            }}
-          >
-            <StyledTableCell>
-              <TableSortLabel
-                active={sortBy === "name"}
-                direction={sortBy === "name" ? sortOrder : "asc"}
-                onClick={() => handleSort("name")}
-              >
-                Name
-              </TableSortLabel>
-            </StyledTableCell>
-            <StyledTableCell>Email</StyledTableCell>
-            <StyledTableCell>Phone</StyledTableCell>
-            <StyledTableCell align="center">Count</StyledTableCell>
-            <StyledTableCell align="center">Actions</StyledTableCell>
-          </StyledTableRow>
-        </TableHead>
+    <MotionWrapper>
+      <TableContainer component={Paper} sx={{ overflowX: "auto", mt: 3 }}>
+        <Table stickyHeader>
+          <TableHead>
+            <StyledTableRow
+              sx={{
+                "& th": { color: "white", fontWeight: "bold" },
+              }}
+            >
+              <StyledTableCell>
+                <TableSortLabel
+                  active={sortBy === "name"}
+                  direction={sortBy === "name" ? sortOrder : "asc"}
+                  onClick={() => handleSort("name")}
+                >
+                  Name
+                </TableSortLabel>
+              </StyledTableCell>
+              <StyledTableCell>Email</StyledTableCell>
+              <StyledTableCell>Phone</StyledTableCell>
+              <StyledTableCell align="center">Count</StyledTableCell>
+              <StyledTableCell align="center">Actions</StyledTableCell>
+            </StyledTableRow>
+          </TableHead>
 
-        <TableBody>
-          <AnimatePresence>
-            {sortedUsers.map((user) => (
-              <motion.tr
-                key={user.userId}
-                initial="hidden"
-                animate="visible"
-                exit="exit"
-                variants={rowVariants}
-                style={{
-                  borderBottom: "1px solid rgba(0, 0, 0, 0.1)",
-                  transition: "background 0.3s cubic-bezier(0.19, 1, 0.22, 1)",
-                }}
-                whileHover={{
-                  backgroundColor: "rgba(0, 0, 0, 0.05)",
-                  transition: { duration: 0.2, ease: [0.19, 1, 0.22, 1] },
-                }}
-              >
-                <StyledTableCell>{user.name}</StyledTableCell>
-                <StyledTableCell>{user.email}</StyledTableCell>
-                <StyledTableCell>{user.phone}</StyledTableCell>
-                <StyledTableCell align="center">
-                  <Typography fontWeight="bold">{user.count}</Typography>
-                </StyledTableCell>
-                <StyledTableCell align="center">
-                  <IconButton
-                    onClick={() => handleDelete(user.userId)}
-                    color="error"
-                  >
-                    <DeleteIcon />
-                  </IconButton>
-                </StyledTableCell>
-              </motion.tr>
-            ))}
-          </AnimatePresence>
-        </TableBody>
-      </Table>
-    </TableContainer>
+          <TableBody>
+            <AnimatePresence>
+              {sortedUsers.map((user) => (
+                <motion.tr
+                  key={user.userId}
+                  initial="hidden"
+                  animate="visible"
+                  exit="exit"
+                  variants={rowVariants}
+                  style={{
+                    borderBottom: "1px solid rgba(0, 0, 0, 0.1)",
+                    transition:
+                      "background 0.3s cubic-bezier(0.19, 1, 0.22, 1)",
+                  }}
+                  whileHover={{
+                    backgroundColor: "rgba(0, 0, 0, 0.05)",
+                    transition: { duration: 0.2, ease: [0.19, 1, 0.22, 1] },
+                  }}
+                >
+                  <StyledTableCell>{user.name}</StyledTableCell>
+                  <StyledTableCell>{user.email}</StyledTableCell>
+                  <StyledTableCell>{user.phone}</StyledTableCell>
+                  <StyledTableCell align="center">
+                    <Typography fontWeight="bold">{user.count}</Typography>
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
+                    <IconButton
+                      onClick={() => handleDelete(user.userId)}
+                      color="error"
+                    >
+                      <DeleteIcon />
+                    </IconButton>
+                  </StyledTableCell>
+                </motion.tr>
+              ))}
+            </AnimatePresence>
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </MotionWrapper>
   );
 };
 

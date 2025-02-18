@@ -1,15 +1,10 @@
 import { useState, useEffect } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import {
-  Box,
-  Typography,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-} from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { useAppStore } from "../../services/store/counter/appStore";
+import MotionWrapper from "../../components/animations/MotionWrapper";
+import GlobalAutocomplete from "../../components/dropdown/GlobalAutocomplete";
 
 const RichTextEditor = () => {
   const { users, selectedUserId, setSelectedUser } = useAppStore();
@@ -33,42 +28,39 @@ const RichTextEditor = () => {
 
   return (
     <Box sx={{ maxWidth: "800px", margin: "auto", padding: 3 }}>
-      <Typography variant="h5" gutterBottom>
-        Rich Text Editor
-      </Typography>
-
-      {/* User Selection Dropdown */}
-      <FormControl fullWidth sx={{ marginBottom: 2 }}>
-        <InputLabel>Select User</InputLabel>
-        <Select
-          value={selectedUserId || ""}
-          onChange={(e) => setSelectedUser(e.target.value)}
-        >
-          {users.map((user) => (
-            <MenuItem key={user.userId} value={user.userId}>
-              {user.name} ({user.email})
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-
-      {selectedUser ? (
-        <>
-          <Typography variant="body1">
-            <strong>Name:</strong> {selectedUser.name}
-          </Typography>
-          <ReactQuill
-            value={content}
-            onChange={setContent}
-            theme="snow"
-            style={{ height: "200px", marginTop: "20px" }}
-          />
-        </>
-      ) : (
-        <Typography variant="body1" color="error">
-          Please select a user to edit.
+      <MotionWrapper>
+        <Typography variant="h5" gutterBottom>
+          Rich Text Editor
         </Typography>
-      )}
+      </MotionWrapper>
+
+      <GlobalAutocomplete
+        options={users}
+        value={selectedUser || null}
+        onChange={(user) => setSelectedUser(user?.userId || "")}
+        getOptionLabel={(user) => `${user.name} (${user.email})`}
+        label="Select User"
+      />
+
+      <MotionWrapper>
+        {selectedUser ? (
+          <>
+            <Typography variant="body1">
+              <strong>Name:</strong> {selectedUser.name}
+            </Typography>
+            <ReactQuill
+              value={content}
+              onChange={setContent}
+              theme="snow"
+              style={{ height: "200px", marginTop: "20px" }}
+            />
+          </>
+        ) : (
+          <Typography variant="body1" color="error">
+            Please select a user to edit.
+          </Typography>
+        )}
+      </MotionWrapper>
     </Box>
   );
 };

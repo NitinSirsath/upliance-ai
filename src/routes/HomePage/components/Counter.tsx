@@ -9,6 +9,7 @@ import {
 import GlobalAutocomplete from "../../../components/dropdown/GlobalAutocomplete";
 import useCounter from "../hooks/useCounter";
 import UserFormDialog from "./dialog/UserForm";
+import MotionWrapper from "../../../components/animations/MotionWrapper";
 
 const Counter = () => {
   const {
@@ -31,48 +32,63 @@ const Counter = () => {
         alignItems={"center"}
         justifyContent={"right"}
       >
-        <Box sx={{ width: isMobile ? "260px" : "300px" }}>
-          <GlobalAutocomplete
-            options={users}
-            value={selectedUser || null}
-            onChange={(user) => setSelectedUser(user?.userId || "")}
-            getOptionLabel={(user) => `${user.name} (${user.email})`}
-            label="Select User"
-          />
-        </Box>
-        <Button
-          variant="outlined"
-          color="primary"
-          onClick={() => setOpenUserForm(true)}
-          size="small"
-        >
-          Add User
-        </Button>
+        <MotionWrapper>
+          <Box sx={{ width: isMobile ? "260px" : "300px" }}>
+            <GlobalAutocomplete
+              options={users}
+              value={selectedUser || null}
+              onChange={(user) => setSelectedUser(user?.userId || "")}
+              getOptionLabel={(user) => `${user.name} (${user.email})`}
+              label="Select User"
+            />
+          </Box>
+        </MotionWrapper>
+        <MotionWrapper>
+          <Button
+            variant="outlined"
+            color="primary"
+            onClick={() => setOpenUserForm(true)}
+            size="small"
+          >
+            Add User
+          </Button>
+        </MotionWrapper>
       </Stack>
 
       {/* Show counter for selected user */}
       {selectedUser ? (
-        <>
-          <Typography variant="h5">Count: {selectedUser.count}</Typography>
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              gap: 2,
-              marginTop: 2,
-            }}
+        <MotionWrapper>
+          <Typography
+            variant="h5"
+            sx={{ textAlign: "center", fontWeight: 600 }}
           >
-            <Button variant="contained" color="primary" onClick={increment}>
-              Increment
-            </Button>
-            <Button variant="contained" color="secondary" onClick={decrement}>
-              Decrement
-            </Button>
-            <Button variant="contained" color="error" onClick={reset}>
-              Reset
-            </Button>
-          </Box>
-        </>
+            Count: {selectedUser.count}
+          </Typography>
+
+          <MotionWrapper>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                gap: 3,
+                marginTop: 3,
+                flexDirection: { xs: "column", sm: "row" },
+              }}
+            >
+              <Button variant="contained" color="success" onClick={increment}>
+                + Increment
+              </Button>
+
+              <Button variant="contained" color="error" onClick={decrement}>
+                - Decrement
+              </Button>
+
+              <Button variant="contained" color="primary" onClick={reset}>
+                Reset
+              </Button>
+            </Box>
+          </MotionWrapper>
+        </MotionWrapper>
       ) : (
         <Typography variant="body1" color="error">
           Please select a user to use the counter.
