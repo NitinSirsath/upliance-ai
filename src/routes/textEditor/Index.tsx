@@ -33,14 +33,15 @@ const RichTextEditor = () => {
           Rich Text Editor
         </Typography>
       </MotionWrapper>
-
-      <GlobalAutocomplete
-        options={users}
-        value={selectedUser || null}
-        onChange={(user) => setSelectedUser(user?.userId || "")}
-        getOptionLabel={(user) => `${user.name} (${user.email})`}
-        label="Select User"
-      />
+      <MotionWrapper>
+        <GlobalAutocomplete
+          options={users}
+          value={selectedUser || null}
+          onChange={(user) => setSelectedUser(user?.userId || "")}
+          getOptionLabel={(user) => `${user.name} (${user.email})`}
+          label="Select User"
+        />
+      </MotionWrapper>
 
       <MotionWrapper>
         {selectedUser ? (
