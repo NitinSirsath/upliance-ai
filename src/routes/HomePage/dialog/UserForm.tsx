@@ -1,7 +1,8 @@
-import { Box, Stack, TextField } from "@mui/material";
-import { Dispatch, SetStateAction } from "react";
+import { Box, Stack, TextField, Typography } from "@mui/material";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import GlobalDialog from "../../../components/dialogs/GlobalDialog";
 import useUserForm from "../hooks/useUserForm";
+import { User } from "../../../services/store/counter/appStore";
 
 type IProps = {
   open: boolean;
@@ -25,18 +26,31 @@ const UserFormDialog = ({ open, setOpen }: IProps) => {
     formData,
   } = useUserForm();
 
+  const [newUserId, setNewUserId] = useState<string | null>(
+    crypto.randomUUID()
+  );
+
+  useEffect(() => {
+    setNewUserId(crypto.randomUUID());
+  }, [open]);
+
   const handleClose = () => {
     setFormData(initialValues);
     setErrors(initialValues);
+    setNewUserId(null);
     setOpen(false);
   };
 
   const handleSubmit = (e?: React.FormEvent) => {
     if (e) e.preventDefault();
     if (!validate()) return;
-    addUser(formData);
-    setFormData(initialValues);
-    setOpen(false);
+    const obj: User = {
+      ...formData,
+      userId: newUserId || crypto.randomUUID(),
+      count: 0,
+    };
+    addUser(obj);
+    handleClose();
   };
 
   return (
@@ -49,6 +63,7 @@ const UserFormDialog = ({ open, setOpen }: IProps) => {
     >
       <Box component="form" onSubmit={handleSubmit}>
         <Stack direction="column" spacing={2}>
+          <Typography variant="caption">New User ID : {newUserId}</Typography>
           <TextField
             label="Name"
             name="name"

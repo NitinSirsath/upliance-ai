@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-interface User {
+export interface User {
   userId: string;
   name: string;
   address: string;
@@ -14,7 +14,7 @@ interface AppState {
   users: User[];
   selectedUserId: string | null;
   setSelectedUser: (userId: string) => void;
-  addUser: (user: Omit<User, "userId" | "count">) => void;
+  addUser: (user: User) => void;
   increment: () => void;
   decrement: () => void;
   reset: () => void;
@@ -30,12 +30,7 @@ export const useAppStore = create<AppState>()(
 
       addUser: (user) =>
         set((state) => {
-          const newUser: User = {
-            ...user,
-            userId: crypto.randomUUID(),
-            count: 0,
-          };
-          return { users: [...state.users, newUser] };
+          return { users: [...state.users, user] };
         }),
 
       increment: () => {

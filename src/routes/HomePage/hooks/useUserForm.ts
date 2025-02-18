@@ -49,7 +49,7 @@ const useUserForm = () => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-    setErrors((prev) => ({ ...prev, [e.target.name]: "" })); // Clear error when user types
+    setErrors((prev) => ({ ...prev, [e.target.name]: "" }));
   };
   return {
     handleChange,
