@@ -4,9 +4,8 @@ import {
   Box,
   Divider,
   Stack,
-  Paper,
+  Chip,
 } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
 import {
   LinkedIn,
   GitHub,
@@ -17,133 +16,126 @@ import {
 } from "@mui/icons-material";
 
 const AboutMe = () => {
-  const theme = useTheme();
-  const isDarkMode = theme.palette.mode === "dark";
-
   return (
     <Container maxWidth="md">
-      <Paper
-        elevation={3}
+      <Box
         sx={{
-          p: 4,
-          mt: 4,
-          borderRadius: "12px",
+          p: 1,
+          borderRadius: 2,
           textAlign: "center",
-          backgroundColor: isDarkMode ? "grey.900" : "grey.100",
         }}
       >
         <Typography variant="h4" fontWeight="bold">
           Nitin Sirsath
         </Typography>
         <Typography variant="subtitle1" color="text.secondary">
-          Frontend Developer
+          Frontend Developer | ReactJS | TypeScript | MUI
         </Typography>
 
         <Divider sx={{ my: 3 }} />
 
-        <Box textAlign="left">
-          <Typography variant="h6" fontWeight="bold" gutterBottom>
-            About Me
-          </Typography>
-          <Typography variant="body1">
-            I have 2 years of experience building responsive and modern web
-            applications using ReactJS, React Native, NodeJS TypeScript,
-            Zustand, and MUI. I focus on creating clean designs and implementing
-            features like state management and access control. I'm eager to
-            contribute and grow as part of your team.
-          </Typography>
-        </Box>
+        {/* About Section */}
+        <Typography variant="h6" fontWeight="bold">
+          About Me
+        </Typography>
+        <Typography variant="body1" sx={{ mt: 1 }}>
+          2 years of experience in **ReactJS, TypeScript, Zustand, MUI**, and
+          **Node.js**. Passionate about clean UI/UX, performance optimization,
+          and access control implementations.
+        </Typography>
 
         <Divider sx={{ my: 3 }} />
 
-        <Box textAlign="left">
-          <Typography variant="h6" fontWeight="bold" gutterBottom>
-            Technical Skills
-          </Typography>
-          <Stack
-            direction="row"
-            spacing={2}
-            gap={1}
-            flexWrap="wrap"
-            justifyContent="center"
-          >
-            <ChipWithIcon icon={<Code />} label="ReactJS / TypeScript" />
-            <ChipWithIcon icon={<Code />} label="React Native" />
-            <ChipWithIcon icon={<Code />} label="NodeJS / ExpressJs" />
-            <ChipWithIcon icon={<Code />} label="Zustand / MUI" />
-            <ChipWithIcon icon={<Code />} label="Github/Git" />
-          </Stack>
-        </Box>
+        {/* Technical Skills */}
+        <Typography variant="h6" fontWeight="bold">
+          Technical Skills
+        </Typography>
+        <Stack
+          direction="row"
+          spacing={1}
+          flexWrap="wrap"
+          justifyContent="center"
+          sx={{ mt: 1 }}
+        >
+          {[
+            "ReactJS",
+            "TypeScript",
+            "React Native",
+            "Node.js",
+            "ExpressJS",
+            "MUI",
+            "Zustand",
+          ].map((skill) => (
+            <Chip
+              key={skill}
+              icon={<Code />}
+              label={skill}
+              variant="outlined"
+            />
+          ))}
+        </Stack>
 
         <Divider sx={{ my: 3 }} />
 
-        <Box textAlign="left">
-          <Typography variant="h6" fontWeight="bold" gutterBottom>
-            Interests & Hobbies
-          </Typography>
-          <Stack
-            direction="row"
-            spacing={2}
-            flexWrap="wrap"
-            justifyContent="center"
-            gap={1}
-          >
-            <ChipWithIcon icon={<FitnessCenter />} label="Gym & Fitness" />
-            <ChipWithIcon icon={<Code />} label="Competitive Programming" />
-            <ChipWithIcon icon={<Code />} label="Learning German" />
-            <ChipWithIcon icon={<Code />} label="DC Comics Fan" />
-            <ChipWithIcon icon={<Gamepad />} label="Gaming" />
-          </Stack>
-        </Box>
+        {/* Interests & Hobbies */}
+        <Typography variant="h6" fontWeight="bold">
+          Interests & Hobbies
+        </Typography>
+        <Stack
+          direction="row"
+          spacing={1}
+          flexWrap="wrap"
+          justifyContent="center"
+          sx={{ mt: 1 }}
+        >
+          <Chip
+            icon={<FitnessCenter />}
+            label="Gym & Fitness"
+            variant="outlined"
+          />
+          <Chip
+            icon={<Code />}
+            label="Competitive Programming"
+            variant="outlined"
+          />
+          <Chip icon={<Code />} label="Learning German" variant="outlined" />
+          <Chip icon={<Gamepad />} label="Gaming" variant="outlined" />
+        </Stack>
 
         <Divider sx={{ my: 3 }} />
 
-        <Box>
-          <Typography variant="h6" fontWeight="bold" gutterBottom>
-            Connect With Me
-          </Typography>
-          <Stack direction="row" spacing={2} justifyContent="center">
-            <ContactIcon
-              href="mailto:nitinsirsath8855@gmail.com"
-              icon={<Mail />}
-              label="Email"
-            />
-            <ContactIcon
-              href="https://nitinsirsath.netlify.app/"
-              icon={<GitHub />}
-              label="Portfolio"
-            />
-            <ContactIcon
-              href="https://www.linkedin.com/in/nitin-s-254294119/"
-              icon={<LinkedIn />}
-              label="LinkedIn"
-            />
-          </Stack>
-        </Box>
-      </Paper>
+        {/* Contact Section */}
+        <Typography variant="h6" fontWeight="bold">
+          Connect With Me
+        </Typography>
+        <Stack
+          direction="row"
+          spacing={2}
+          justifyContent="center"
+          sx={{ mt: 1 }}
+        >
+          <ContactLink
+            href="mailto:nitinsirsath8855@gmail.com"
+            icon={<Mail />}
+            label="Email"
+          />
+          <ContactLink
+            href="https://github.com/nitinsirsath"
+            icon={<GitHub />}
+            label="GitHub"
+          />
+          <ContactLink
+            href="https://www.linkedin.com/in/nitin-s-254294119/"
+            icon={<LinkedIn />}
+            label="LinkedIn"
+          />
+        </Stack>
+      </Box>
     </Container>
   );
 };
 
-const ChipWithIcon = ({
-  icon,
-  label,
-}: {
-  icon: JSX.Element;
-  label: string;
-}) => (
-  <Box
-    display="flex"
-    alignItems="center"
-    gap={1}
-    sx={{ p: 1, border: "1px solid grey", borderRadius: "8px" }}
-  >
-    {icon}
-    <Typography variant="body2">{label}</Typography>
-  </Box>
-);
-
-const ContactIcon = ({
+const ContactLink = ({
   href,
   icon,
   label,
