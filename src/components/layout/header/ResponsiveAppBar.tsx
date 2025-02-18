@@ -13,7 +13,15 @@ import {
   Stack,
   Button,
   useTheme,
+  Drawer,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemText,
+  Divider,
+  useMediaQuery,
 } from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
 import { useNavigate } from "react-router-dom";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 import LightModeIcon from "@mui/icons-material/LightMode";
@@ -23,6 +31,12 @@ import { useAuthStore } from "../../../services/store/auth/authStore";
 import companyLogo from "../../../assets/companyIcon.avif";
 
 const settings = ["Profile", "Logout"];
+const navLinks = [
+  { label: "Home", path: "/" },
+  { label: "Text Editor", path: "/rich-text-editor" },
+  { label: "Dashboard", path: "/dashboard" },
+  { label: "About Me", path: "/about" },
+];
 
 const ResponsiveAppBar = () => {
   const theme = useTheme();
@@ -32,6 +46,10 @@ const ResponsiveAppBar = () => {
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null
   );
+  const [mobileOpen, setMobileOpen] = React.useState(false);
+
+  // Detect screen size
+  const isMobile = useMediaQuery(theme.breakpoints.down("md")); // Below 960px (tablet & mobile)
 
   // Theme colors dynamically based on mode
   const navBarBG = theme.palette.background.default;
@@ -60,6 +78,10 @@ const ResponsiveAppBar = () => {
     toggleDarkMode();
   };
 
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen);
+  };
+
   return (
     <AppBar
       sx={{
@@ -75,8 +97,17 @@ const ResponsiveAppBar = () => {
           sx={{ display: "flex", justifyContent: "space-between" }}
           disableGutters
         >
-          {/* Company Logo */}
+          {/* Left Section: Logo & Mobile Menu Button */}
           <Box sx={{ display: "flex", alignItems: "center" }}>
+            {isMobile && (
+              <IconButton
+                sx={{ mr: 2, color: textColor }}
+                edge="start"
+                onClick={handleDrawerToggle}
+              >
+                <MenuIcon />
+              </IconButton>
+            )}
             <img
               src={companyLogo}
               style={{ height: "40px", cursor: "pointer" }}
@@ -86,40 +117,24 @@ const ResponsiveAppBar = () => {
             />
           </Box>
 
-          {/* Navigation Links */}
-          <Stack direction={"row"} spacing={2} alignItems="center">
-            <Stack sx={{ marginLeft: "1rem" }} direction={"row"} spacing={1}>
-              <Button
-                color="inherit"
-                sx={{ color: textColor, textTransform: "capitalize" }}
-                onClick={() => navigate("/")}
-              >
-                Home
-              </Button>
-              <Button
-                color="inherit"
-                sx={{ color: textColor, textTransform: "capitalize" }}
-                onClick={() => navigate("/rich-text-editor")}
-              >
-                Text Editor
-              </Button>
-              <Button
-                color="inherit"
-                sx={{ color: textColor, textTransform: "capitalize" }}
-                onClick={() => navigate("/dashboard")}
-              >
-                Dashboard
-              </Button>
-              <Button
-                color="inherit"
-                sx={{ color: textColor, textTransform: "capitalize" }}
-                onClick={() => navigate("/about")}
-              >
-                About Me
-              </Button>
+          {/* Middle Section: Navigation Links (Desktop Only) */}
+          {!isMobile && (
+            <Stack direction={"row"} spacing={2} alignItems="center">
+              {navLinks.map(({ label, path }) => (
+                <Button
+                  key={label}
+                  color="inherit"
+                  sx={{ color: textColor, textTransform: "capitalize" }}
+                  onClick={() => navigate(path)}
+                >
+                  {label}
+                </Button>
+              ))}
             </Stack>
+          )}
 
-            {/* Dark Mode Toggle */}
+          {/* Right Section: Theme Toggle & User Menu */}
+          <Stack direction={"row"} alignItems="center" spacing={1}>
             <Tooltip
               enterDelay={500}
               leaveDelay={300}
@@ -187,6 +202,40 @@ const ResponsiveAppBar = () => {
           </Stack>
         </Toolbar>
       </Container>
+
+      {/* Mobile Drawer Menu */}
+      <Drawer
+        anchor="left"
+        open={mobileOpen}
+        onClose={handleDrawerToggle}
+        sx={{
+          "& .MuiDrawer-paper": {
+            width: 250,
+            backgroundColor: menuBgColor,
+            color: textColor,
+          },
+        }}
+      >
+        <List>
+          {navLinks.map(({ label, path }) => (
+            <ListItem key={label} disablePadding>
+              <ListItemButton onClick={() => navigate(path)}>
+                <ListItemText primary={label} />
+              </ListItemButton>
+            </ListItem>
+          ))}
+        </List>
+        <Divider />
+        <List>
+          {settings.map((setting) => (
+            <ListItem key={setting} disablePadding>
+              <ListItemButton onClick={() => handleCloseUserMenu(setting)}>
+                <ListItemText primary={setting} />
+              </ListItemButton>
+            </ListItem>
+          ))}
+        </List>
+      </Drawer>
     </AppBar>
   );
 };
