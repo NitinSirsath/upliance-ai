@@ -1,4 +1,4 @@
-import { Box, Stack, TextField, Button } from "@mui/material";
+import { Box, Stack, TextField } from "@mui/material";
 import { Dispatch, SetStateAction } from "react";
 import GlobalDialog from "../../../components/dialogs/GlobalDialog";
 import useUserForm from "../hooks/useUserForm";
@@ -85,9 +85,6 @@ const UserFormDialog = ({ open, setOpen }: IProps) => {
             error={!!errors.phone}
             helperText={errors.phone}
           />
-          <Button type="submit" variant="contained" color="primary">
-            Add User
-          </Button>
         </Stack>
       </Box>
     </GlobalDialog>

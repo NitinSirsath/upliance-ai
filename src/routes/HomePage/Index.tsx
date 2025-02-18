@@ -1,10 +1,11 @@
+import { Stack } from "@mui/material";
 import Counter from "./components/Counter";
 
 const HomePage = () => {
   return (
-    <div>
+    <Stack justifyContent={"start"} alignItems={"center"}>
       <Counter />
-    </div>
+    </Stack>
   );
 };
 

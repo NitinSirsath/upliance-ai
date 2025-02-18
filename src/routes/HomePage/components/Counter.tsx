@@ -1,4 +1,4 @@
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button, Stack, Typography } from "@mui/material";
 import GlobalAutocomplete from "../../../components/dropdown/GlobalAutocomplete";
 import useCounter from "../hooks/useCounter";
 import UserFormDialog from "../dialog/UserForm";
@@ -16,22 +16,30 @@ const Counter = () => {
   } = useCounter();
 
   return (
-    <Box sx={{ textAlign: "center", padding: "20px" }}>
-      <Button onClick={() => setOpenUserForm(true)}>Open</Button>
-      <Typography variant="h4" gutterBottom>
-        Counter
-      </Typography>
-
-      {/* User Selection */}
-      <Box sx={{ marginBottom: 2 }}>
-        <GlobalAutocomplete
-          options={users}
-          value={selectedUser || null}
-          onChange={(user) => setSelectedUser(user?.userId || "")}
-          getOptionLabel={(user) => `${user.name} (${user.email})`}
-          label="Select User"
-        />
-      </Box>
+    <Box sx={{ textAlign: "center" }}>
+      <Stack
+        direction={"row"}
+        spacing={1}
+        alignItems={"center"}
+        justifyContent={"right"}
+      >
+        <Box>
+          <GlobalAutocomplete
+            options={users}
+            value={selectedUser || null}
+            onChange={(user) => setSelectedUser(user?.userId || "")}
+            getOptionLabel={(user) => `${user.name} (${user.email})`}
+            label="Select User"
+          />
+        </Box>
+        <Button
+          variant="outlined"
+          color="primary"
+          onClick={() => setOpenUserForm(true)}
+        >
+          Add User
+        </Button>
+      </Stack>
 
       {/* Show counter for selected user */}
       {selectedUser ? (
