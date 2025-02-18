@@ -30,7 +30,7 @@ const CounterChart = () => {
 
     setChartData((prevData) => [...prevData, newEntry].slice(-10)); // Keep last 10 data points
   }, [userCount, selectedUserId]);
-
+  console.log(chartData, "chartData");
   const chartContent = useMemo(() => {
     return selectedUserId ? (
       <ResponsiveContainer width="100%" height="100%">

@@ -65,8 +65,8 @@ const UserFormDialog = ({ open, setOpen }: IProps) => {
     setOpen(false);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
     if (!validate()) return;
     addUser(formData);
     setFormData(initialValues);
@@ -75,7 +75,7 @@ const UserFormDialog = ({ open, setOpen }: IProps) => {
 
   return (
     <GlobalDialog
-      dialogActionFunction={handleClose}
+      dialogActionFunction={handleSubmit}
       handleClose={handleClose}
       dialogTitle="User Form"
       open={open}
