@@ -29,6 +29,7 @@ import useThemeStore from "../../../services/store/theme/themeStore";
 import { removeUserData } from "../../../services/localStorage/authUtils";
 import { useAuthStore } from "../../../services/store/auth/authStore";
 import companyLogo from "../../../assets/companyIcon.avif";
+import { motion } from "framer-motion";
 
 const settings = ["Profile", "Logout"];
 const navLinks = [
@@ -49,7 +50,7 @@ const ResponsiveAppBar = () => {
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
   // Detect screen size
-  const isMobile = useMediaQuery(theme.breakpoints.down("md")); // Below 960px (tablet & mobile)
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // Mobile screens
 
   // Theme colors dynamically based on mode
   const navBarBG = theme.palette.background.default;
@@ -94,7 +95,11 @@ const ResponsiveAppBar = () => {
     >
       <Container sx={{ minWidth: "100%" }}>
         <Toolbar
-          sx={{ display: "flex", justifyContent: "space-between" }}
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            flexWrap: "wrap",
+          }}
           disableGutters
         >
           {/* Left Section: Logo & Mobile Menu Button */}
@@ -110,7 +115,11 @@ const ResponsiveAppBar = () => {
             )}
             <img
               src={companyLogo}
-              style={{ height: "40px", cursor: "pointer" }}
+              style={{
+                height: "40px",
+                cursor: "pointer",
+                maxWidth: "100%",
+              }}
               alt="Company Logo"
               loading="lazy"
               onClick={() => navigate("/")}
@@ -121,14 +130,22 @@ const ResponsiveAppBar = () => {
           {!isMobile && (
             <Stack direction={"row"} spacing={2} alignItems="center">
               {navLinks.map(({ label, path }) => (
-                <Button
+                <motion.div
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.95 }}
                   key={label}
-                  color="inherit"
-                  sx={{ color: textColor, textTransform: "capitalize" }}
-                  onClick={() => navigate(path)}
                 >
-                  {label}
-                </Button>
+                  <Button
+                    color="inherit"
+                    sx={{
+                      color: textColor,
+                      textTransform: "capitalize",
+                    }}
+                    onClick={() => navigate(path)}
+                  >
+                    {label}
+                  </Button>
+                </motion.div>
               ))}
             </Stack>
           )}
@@ -140,20 +157,21 @@ const ResponsiveAppBar = () => {
               leaveDelay={300}
               title={darkMode ? "Light Mode" : "Dark Mode"}
             >
-              <IconButton
-                onClick={handleThemeMode}
-                sx={{
-                  color: textColor,
-                  transition: "all 0.3s",
-                  "&:hover": { transform: "scale(1.1)" },
-                }}
-              >
-                {darkMode ? (
-                  <DarkModeIcon fontSize="small" />
-                ) : (
-                  <LightModeIcon fontSize="small" />
-                )}
-              </IconButton>
+              <motion.div whileHover={{ scale: 1.2 }} whileTap={{ scale: 0.9 }}>
+                <IconButton
+                  onClick={handleThemeMode}
+                  sx={{
+                    color: textColor,
+                    transition: "all 0.3s",
+                  }}
+                >
+                  {darkMode ? (
+                    <DarkModeIcon fontSize="small" />
+                  ) : (
+                    <LightModeIcon fontSize="small" />
+                  )}
+                </IconButton>
+              </motion.div>
             </Tooltip>
 
             {/* User Avatar Menu */}
