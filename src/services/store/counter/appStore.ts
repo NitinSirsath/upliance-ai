@@ -7,7 +7,7 @@ export interface User {
   address: string;
   email: string;
   phone: string;
-  count: number; // Moved count inside the user object
+  count: number;
 }
 
 interface AppState {
