@@ -1,14 +1,6 @@
-import {
-  Container,
-  Typography,
-  Paper,
-  Box,
-  MenuItem,
-  Select,
-  FormControl,
-  InputLabel,
-} from "@mui/material";
+import { Container, Typography, Paper, Box } from "@mui/material";
 import CounterChart from "./components/chart/CounterChart";
+import GlobalAutocomplete from "../../../components/dropdown/GlobalAutocomplete";
 import { useUserStore } from "../../../services/store/counter/userStore";
 
 const DashboardPage = () => {
@@ -21,20 +13,16 @@ const DashboardPage = () => {
         Dashboard
       </Typography>
 
-      {/* User Selection Dropdown (Only Here) */}
-      <FormControl fullWidth sx={{ marginTop: 2 }}>
-        <InputLabel>Select User</InputLabel>
-        <Select
-          value={selectedUserId || ""}
-          onChange={(e) => setSelectedUser(e.target.value)}
-        >
-          {users.map((user) => (
-            <MenuItem key={user.userId} value={user.userId}>
-              {user.name} ({user.email})
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
+      {/* User Selection with GlobalAutocomplete */}
+      <Box sx={{ marginTop: 2 }}>
+        <GlobalAutocomplete
+          options={users}
+          value={selectedUser || null}
+          onChange={(user) => setSelectedUser(user?.userId || "")}
+          getOptionLabel={(user) => `${user.name} (${user.email})`}
+          label="Select User"
+        />
+      </Box>
 
       {/* Show selected user details */}
       {selectedUser && (

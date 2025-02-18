@@ -13,20 +13,21 @@ import { useCounterStore } from "../../../../../services/store/counter/counterSt
 import { useUserStore } from "../../../../../services/store/counter/userStore";
 
 const CounterChart = () => {
-  const { selectedUserId } = useUserStore(); // Get selected user globally
+  const { selectedUserId } = useUserStore();
   const { userCounters } = useCounterStore();
   const [chartData, setChartData] = useState<{ time: string; value: number }[]>(
     []
   );
 
   useEffect(() => {
-    if (!selectedUserId) return; // Skip if no user is selected
+    if (!selectedUserId) return;
 
     const newEntry = {
       time: new Date().toLocaleTimeString(),
       value: userCounters[selectedUserId] || 0,
     };
-    setChartData(() => [newEntry].slice(-10));
+
+    setChartData((prevData) => [...prevData, newEntry].slice(-10)); // Keep last 10 data points
   }, [userCounters, selectedUserId]);
 
   return (

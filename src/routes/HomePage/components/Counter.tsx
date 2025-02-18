@@ -1,25 +1,12 @@
-import {
-  Box,
-  Button,
-  Typography,
-  MenuItem,
-  Select,
-  FormControl,
-  InputLabel,
-} from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import { useUserStore } from "../../../services/store/counter/userStore";
 import { useCounterStore } from "../../../services/store/counter/counterStore";
+import GlobalAutocomplete from "../../../components/dropdown/GlobalAutocomplete";
 
 const Counter = () => {
-  const { users } = useUserStore();
-  const {
-    userCounters,
-    selectedUserId,
-    setSelectedUser,
-    increment,
-    decrement,
-    reset,
-  } = useCounterStore();
+  const { users, selectedUserId, setSelectedUser } = useUserStore();
+  const { userCounters, increment, decrement, reset } = useCounterStore();
+  const selectedUser = users.find((user) => user.userId === selectedUserId);
 
   return (
     <Box sx={{ textAlign: "center", padding: "20px" }}>
@@ -27,20 +14,16 @@ const Counter = () => {
         Counter
       </Typography>
 
-      {/* User Selection Dropdown */}
-      <FormControl fullWidth sx={{ marginBottom: 2 }}>
-        <InputLabel>Select User</InputLabel>
-        <Select
-          value={selectedUserId || ""}
-          onChange={(e) => setSelectedUser(e.target.value)}
-        >
-          {users.map((user) => (
-            <MenuItem key={user.userId} value={user.userId}>
-              {user.name} ({user.email})
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
+      {/* User Selection with GlobalAutocomplete */}
+      <Box sx={{ marginBottom: 2 }}>
+        <GlobalAutocomplete
+          options={users}
+          value={selectedUser || null}
+          onChange={(user) => setSelectedUser(user?.userId || "")}
+          getOptionLabel={(user) => `${user.name} (${user.email})`}
+          label="Select User"
+        />
+      </Box>
 
       {/* Show counter for selected user */}
       {selectedUserId ? (
