@@ -1,22 +1,19 @@
 import { Box, Button, Typography } from "@mui/material";
 import GlobalAutocomplete from "../../../components/dropdown/GlobalAutocomplete";
-import { useState } from "react";
+import useCounter from "../hooks/useCounter";
 import UserFormDialog from "../dialog/UserForm";
-import { useAppStore } from "../../../services/store/counter/appStore";
 
 const Counter = () => {
   const {
     users,
-    selectedUserId,
     setSelectedUser,
     increment,
     decrement,
     reset,
-  } = useAppStore();
-  const selectedUser = users.find((user) => user.userId === selectedUserId);
-
-  // Dialog state
-  const [openUserForm, setOpenUserForm] = useState<boolean>(false);
+    openUserForm,
+    setOpenUserForm,
+    selectedUser,
+  } = useCounter();
 
   return (
     <Box sx={{ textAlign: "center", padding: "20px" }}>

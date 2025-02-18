@@ -9,7 +9,7 @@ import {
 } from "recharts";
 
 import { Box, Typography } from "@mui/material";
-import { useAppStore } from "../../../../../services/store/counter/appStore";
+import { useAppStore } from "../../../../services/store/counter/appStore";
 
 const CounterChart = () => {
   const { users, selectedUserId } = useAppStore();

@@ -1,7 +1,7 @@
 import { Container, Typography, Paper, Box } from "@mui/material";
 import CounterChart from "./components/chart/CounterChart";
-import GlobalAutocomplete from "../../../components/dropdown/GlobalAutocomplete";
-import { useAppStore } from "../../../services/store/counter/appStore";
+import GlobalAutocomplete from "../../components/dropdown/GlobalAutocomplete";
+import { useAppStore } from "../../services/store/counter/appStore";
 
 const DashboardPage = () => {
   const { users, selectedUserId, setSelectedUser } = useAppStore();
